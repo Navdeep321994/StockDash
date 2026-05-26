@@ -15,8 +15,8 @@ import {
   ChevronDown, AlertCircle, Maximize2, Minimize2
 } from 'lucide-react';
 
-const API_BASE = 'https://stock.indianapi.in';
-const API_KEY  = 'sk-live-ihdJabhIypHzFrJyenJqQT31GfAERUPc3syC9xHC';
+const API_BASE = import.meta.env.VITE_API_BASE_URL || 'https://stock.indianapi.in';
+const API_KEY  = import.meta.env.VITE_API_KEY || 'sk-live-3W9YZKXVfGO5aZKdRbbViayCZgFIHGj4sgiP40bJ';
 
 // ── Types ────────────────────────────────────────────────────────────────────
 interface RawCandle {

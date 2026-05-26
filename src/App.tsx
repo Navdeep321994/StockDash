@@ -9,8 +9,8 @@ import {
 import TradingChartPage from './TradingChart';
 import RecommendationsPage from './Recommendations';
 
-const API_BASE_URL = 'https://stock.indianapi.in';
-const API_KEY = 'sk-live-ihdJabhIypHzFrJyenJqQT31GfAERUPc3syC9xHC';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://stock.indianapi.in';
+const API_KEY = import.meta.env.VITE_API_KEY || 'sk-live-3W9YZKXVfGO5aZKdRbbViayCZgFIHGj4sgiP40bJ';
 
 const NAV_GROUPS = [
   {

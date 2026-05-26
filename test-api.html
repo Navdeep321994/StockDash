@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Stock Market APIs</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .api-test {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .api-test h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        .result {
+            background: #f5f5f5;
+            padding: 10px;
+            border-radius: 3px;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        .error {
+            color: red;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <h1>Stock Market API Test</h1>
+    <p>Testing all stock market APIs from IndianAPI</p>
+    
+    <div id="results"></div>
+
+    <script>
+        const API_BASE_URL = 'https://stock.indianapi.in';
+        const API_KEY = 'sk-live-ihdJabhIypHzFrJyenJqQT31GfAERUPc3syC9xHC';
+
+        const endpoints = [
+            { id: 'ipo', name: 'IPOs', path: '/ipo' },
+            { id: 'news', name: 'News', path: '/news' },
+            { id: 'trending', name: 'Trending', path: '/trending' },
+            { id: 'commodities', name: 'Commodities', path: '/commodities' },
+            { id: 'mutualFunds', name: 'Mutual Funds', path: '/mutual_funds' },
+            { id: 'priceShockers', name: 'Price Shockers', path: '/price_shockers' },
+            { id: 'bseActive', name: 'BSE Most Active', path: '/BSE_most_active' },
+            { id: 'nseActive', name: 'NSE Most Active', path: '/NSE_most_active' },
+        ];
+
+        async function testAPI(endpoint) {
+            const resultDiv = document.getElementById('results');
+            const testDiv = document.createElement('div');
+            testDiv.className = 'api-test';
+            testDiv.innerHTML = `
+                <h3>${endpoint.name}</h3>
+                <button onclick="testSingleAPI('${endpoint.id}', '${endpoint.path}', this)">Test</button>
+                <div class="result" id="result-${endpoint.id}">Click Test to see data</div>
+            `;
+            resultDiv.appendChild(testDiv);
+        }
+
+        async function testSingleAPI(id, path, button) {
+            const resultDiv = document.getElementById(`result-${id}`);
+            button.disabled = true;
+            button.textContent = 'Loading...';
+            resultDiv.innerHTML = '';
+
+            try {
+                const response = await fetch(`${API_BASE_URL}${path}`, {
+                    headers: {
+                        'x-api-key': API_KEY,
+                    },
+                });
+
+                if (!response.ok) {
+                    throw new Error(`API Error: ${response.statusText}`);
+                }
+
+                const data = await response.json();
+                resultDiv.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+                resultDiv.classList.remove('error');
+            } catch (error) {
+                resultDiv.innerHTML = `<span class="error">Error: ${error.message}</span>`;
+                resultDiv.classList.add('error');
+            } finally {
+                button.disabled = false;
+                button.textContent = 'Test';
+            }
+        }
+
+        // Initialize tests
+        endpoints.forEach(testAPI);
+    </script>
+</body>
+</html>

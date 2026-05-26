@@ -7,6 +7,7 @@ import {
   Briefcase, Target, Clock, AlertCircle, CheckCircle2, LineChart
 } from 'lucide-react';
 import TradingChartPage from './TradingChart';
+import RecommendationsPage from './Recommendations';
 
 const API_BASE_URL = 'https://stock.indianapi.in';
 const API_KEY = 'sk-live-ihdJabhIypHzFrJyenJqQT31GfAERUPc3syC9xHC';
@@ -16,6 +17,7 @@ const NAV_GROUPS = [
     label: 'Market Data',
     items: [
       { id: 'ipo', name: 'IPOs', path: '/ipo', icon: TrendingUp, color: 'text-violet-500' },
+      { id: 'recommendations', name: 'Best Stocks', path: '/recommendations', icon: Target, color: 'text-emerald-500' },
       { id: 'news', name: 'News', path: '/news', icon: Newspaper, color: 'text-blue-500' },
       { id: 'stock', name: 'Stock', path: '/stock', icon: BarChart3, color: 'text-green-500', needsQuery: true, placeholder: 'e.g. Tata Steel' },
       { id: 'chart', name: 'Chart', path: '', icon: LineChart, color: 'text-blue-400' },
@@ -1332,9 +1334,11 @@ export default function App() {
         {sidebarOpen && <div className="fixed inset-0 z-30 bg-black/20 md:hidden" onClick={() => setSidebarOpen(false)} />}
 
         {/* ── Main Content ── */}
-        <main className={`flex-1 overflow-y-auto ${activeId === 'chart' ? 'p-0' : 'p-4 md:p-6'}`}>
+        <main className={`flex-1 overflow-y-auto ${['chart', 'recommendations'].includes(activeId) ? 'p-0' : 'p-4 md:p-6'}`}>
           {activeId === 'chart' ? (
             <TradingChartPage />
+          ) : activeId === 'recommendations' ? (
+            <RecommendationsPage />
           ) : (
             <>
               {/* Page title */}
